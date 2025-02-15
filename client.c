@@ -4,17 +4,34 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <string.h>
+#include <stdlib.h>
+
+char *copystr(char *s1)
+{
+    char *s2;
+    int i = 0;
+
+    s2 = malloc(strlen(s1) + 1);
+    while(s1[i])
+    {
+        s2[i] = s1[i];
+        i++;
+    }
+    s2[i] = '\0';
+    return (s2);
+}
 
 
-
-
-char buffer[1000];
-
-int main()
+int main(int ac, char **av)
 {
     struct sockaddr_in remote;
     int sock;
-    memset(buffer, 'a', sizeof(buffer));
+
+    if (ac == 1)
+    {
+        perror("Usage: ./client <message>");
+        exit(EXIT_FAILURE);
+    }
     sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock < 0)
         return (1);
@@ -22,8 +39,11 @@ int main()
     inet_pton(AF_INET,"127.0.0.1", &remote.sin_addr);
     remote.sin_port = htons(6969);
 
+    char *buff;
+    buff = copystr(av[1]);
     connect(sock, (void *)&remote, sizeof(remote));
-    write(sock, buffer, sizeof(buffer));
+    write(sock, buff, strlen(av[1]));
     close(sock);
+    free(buff);
     return 0;
 }

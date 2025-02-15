@@ -44,18 +44,17 @@ int main()
 
 
     ssize_t bytes_read;
-    int i = 0;
+    int i = 1;
     while(1)
     {
         new_socket = accept(server_fd, NULL, NULL);
-
         if (new_socket < 0)
         {
          perror("Accept failed");
          close(server_fd);
          exit(EXIT_FAILURE);
         }
-        if (bytes_read = read(new_socket, buffer, sizeof(buffer)))
+        if ((bytes_read = read(new_socket, buffer, sizeof(buffer))) > 0)
         {
             if (bytes_read < 0)
             {
@@ -64,10 +63,11 @@ int main()
             else
             {
                 buffer[bytes_read] = '\0';
-                printf("Received iter NUM %d :\n%s\n", i, buffer);
+                printf("Received msg number %d :\n%s\n", i, buffer);
             }
         }
         i++;
+        close(new_socket);
     }
 
     close(new_socket);
