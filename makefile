@@ -5,7 +5,7 @@ server: server.c
 	cc -Wall -Wextra server.c -o server
 
 client: client.c
-	cc -Wall -Wextra server.c -o client
+	cc -Wall -Wextra client.c -o client
 
 
 clean:

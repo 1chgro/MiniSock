@@ -41,9 +41,9 @@ int main(int ac, char **av)
 
     char *buff;
     buff = copystr(av[1]);
-    connect(sock, (void *)&remote, sizeof(remote));
+    connect(sock, (struct sockaddr *)&remote, sizeof(remote));
     write(sock, buff, strlen(av[1]));
-    close(sock);
     free(buff);
+    close(sock);
     return 0;
 }

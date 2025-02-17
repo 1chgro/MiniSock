@@ -7,12 +7,13 @@
 #include <string.h>
 
 #define PORT 6969
+#define BUFFER_SIZE 900000
 
 int main()
 {
     int server_fd, new_socket;
     struct sockaddr_in server_addr;
-    char buffer[1000000] = {0};
+    char buffer[BUFFER_SIZE] = {0};
 
     server_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (server_fd < 0)
@@ -20,13 +21,13 @@ int main()
         perror("socket failed\n");
         exit(EXIT_FAILURE);
     }
-
     server_addr.sin_family=AF_INET;
     server_addr.sin_addr.s_addr = INADDR_ANY;
     server_addr.sin_port=htons(PORT);
 
-    // bind
-    if (bind(server_fd, (void *)&server_addr, sizeof(server_addr)) < 0)
+
+    int bindd = bind(server_fd, (struct sockaddr *)&server_addr, sizeof(server_addr));
+    if (bindd == -1)
     {
         perror("binding failed!");
         close(server_fd);
@@ -39,9 +40,7 @@ int main()
         close(server_fd);
         exit(EXIT_FAILURE);
     }
-    printf("server is listening in port %d....", PORT);
-
-
+    printf("server is listening in port %d....\n", PORT);
 
     ssize_t bytes_read;
     int i = 1;
@@ -54,7 +53,7 @@ int main()
          close(server_fd);
          exit(EXIT_FAILURE);
         }
-        if ((bytes_read = read(new_socket, buffer, sizeof(buffer))) > 0)
+        if ((bytes_read = read(new_socket, buffer, BUFFER_SIZE)) > 0)
         {
             if (bytes_read < 0)
             {
