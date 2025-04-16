@@ -38,3 +38,14 @@
 ```bash
 make
 ```
+### ▶️ Run the Server
+
+```bash
+./server
+```
+
+### 📤 Send a Message with the Client
+
+```bash
+./client "Hello, MiniSock!"
+```
