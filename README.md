@@ -9,7 +9,6 @@
 - 🖥 Server listens on **localhost:6969**
 - 📡 Client sends one message and exits
 - 🔒 Single client at a time (no concurrency)
-- 🧠 Educational and minimal—perfect for learning sockets
 
 ---
 
